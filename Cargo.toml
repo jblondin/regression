@@ -1,0 +1,8 @@
+[package]
+name = "regression"
+version = "0.1.0"
+authors = ["Jamie Blondin <jblondin@gmail.com>"]
+
+[dependencies]
+matrix = { git = "https://github.com/jblondin/matrix" }
+etl = { git = "https://github.com/jblondin/etl" }
