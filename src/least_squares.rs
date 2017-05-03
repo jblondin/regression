@@ -23,6 +23,7 @@ mod tests {
     use std::f64;
 
     use etl::DataFrame;
+
     use matrix::SubMatrix;
 
     use super::*;
@@ -59,7 +60,7 @@ mod tests {
         assert_eq!(soln.nrows(), 2);
         assert_eq!(soln.ncols(), 1);
         // TODO: standardize approx asserts
-        assert!((soln - Matrix::from_vec(vec![-0.82637, 1.66524], 2, 1)).iter()
+        assert!((soln - mat![-0.82637; 1.66524]).iter()
             .fold(f64::NEG_INFINITY, |acc, f| acc.max(f.abs())) < 0.00001);
 
     }
