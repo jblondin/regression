@@ -6,3 +6,4 @@ authors = ["Jamie Blondin <jblondin@gmail.com>"]
 [dependencies]
 matrix = { git = "https://github.com/jblondin/matrix" }
 etl = { git = "https://github.com/jblondin/etl" }
+unittest = { git = "https://github.com/jblondin/unittest" }

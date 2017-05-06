@@ -20,7 +20,6 @@ impl LeastSquares for Matrix {
 #[cfg(test)]
 mod tests {
     use std::path::{PathBuf};
-    use std::f64;
 
     use etl::DataFrame;
 
@@ -59,10 +58,6 @@ mod tests {
         println!("{:?}", soln);
         assert_eq!(soln.nrows(), 2);
         assert_eq!(soln.ncols(), 1);
-        // TODO: standardize approx asserts
-        assert!((soln - mat![-0.82637; 1.66524]).iter()
-            .fold(f64::NEG_INFINITY, |acc, f| acc.max(f.abs())) < 0.00001);
-
+        assert_fpvec_eq!(soln, mat![-0.82637; 1.66524], 1e-5);
     }
-
 }
