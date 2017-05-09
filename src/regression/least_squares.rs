@@ -28,6 +28,7 @@ mod tests {
     #[test]
     fn test_regression() {
         let data_dir_pathbuf = PathBuf::from(file!()) // current file
+                .parent().unwrap() // "regression" directory
                 .parent().unwrap() // "src" directory
                 .parent().unwrap() // crate root directory;
                 .join("test_data");
