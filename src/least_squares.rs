@@ -23,8 +23,6 @@ mod tests {
 
     use etl::DataFrame;
 
-    use matrix::SubMatrix;
-
     use super::*;
 
     #[test]
@@ -40,16 +38,14 @@ mod tests {
         let (_, df) = DataFrame::load(&config_file_path, &data_file_path).unwrap();
         assert_eq!(df.nrows(), 100);
 
-        let (fieldnames, mat) = df.as_matrix().unwrap();
-        println!("{:?}", fieldnames);
-        assert_eq!(fieldnames.len(), 2);
-        assert_eq!(mat.nrows(), 100);
-        assert_eq!(mat.ncols(), 2);
-        // TODO: find a better way to extract based on column names
-        let posx = fieldnames.iter().position(|s| *s == "x").unwrap();
-        let posy = fieldnames.iter().position(|s| *s == "y").unwrap();
-        let x = mat.subm(.., posx).unwrap();
-        let y = mat.subm(.., posy).unwrap();
+        let (fnx, x) = df.sub(vec!["x"]).expect("dataframe sub failed").as_matrix().unwrap();
+        let (fny, y) = df.sub(vec!["y"]).expect("dataframe sub failed").as_matrix().unwrap();
+        println!("{:?} {:?}", fnx, fny);
+        assert_eq!(fnx.len(), 1);
+        assert_eq!(fny.len(), 1);
+        assert_eq!((x.nrows(), x.ncols()), (100, 1));
+        assert_eq!((y.nrows(), y.ncols()), (100, 1));
+
         println!("{:?}", x);
         println!("{:?}", y);
 
