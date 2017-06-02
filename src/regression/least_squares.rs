@@ -1,17 +1,20 @@
 use matrix::Matrix;
+use matrix::GramSolve;
+
+use errors::*;
 
 pub trait LeastSquares {
-    fn least_squares(&self, y: &Matrix) -> Matrix;
+    fn least_squares(&self, y: &Matrix) -> Result<Matrix>;
 }
 
 impl LeastSquares for Matrix {
-    fn least_squares(&self, y: &Matrix) -> Matrix {
+    fn least_squares(&self, y: &Matrix) -> Result<Matrix> {
         assert_eq!(self.nrows(), y.nrows());
         assert_eq!(y.ncols(), 1);
 
         let xaug = Matrix::ones(self.nrows(), 1).hcat(self);
 
-        xaug.gram_solve(&(xaug.t() * y))
+        xaug.gram_solve(&(xaug.t() * y)).chain_err(|| "Failure in solving system of equations")
     }
 }
 
@@ -50,7 +53,7 @@ mod tests {
         println!("{:?}", x);
         println!("{:?}", y);
 
-        let soln = x.least_squares(&y);
+        let soln = x.least_squares(&y).expect("solve failed");
 
         println!("{:?}", soln);
         assert_eq!(soln.nrows(), 2);
